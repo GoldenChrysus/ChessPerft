@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PonzianiComponents">
-      <HintPath>..\Ponziani\PonzianiComponents\bin\Debug\net48\PonzianiComponents.dll</HintPath>
+      <HintPath>Libraries\PonzianiComponents.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
