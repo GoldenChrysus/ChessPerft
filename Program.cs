@@ -77,24 +77,51 @@ namespace ChessPerft {
         };
 
         static void Main(string[] args) {
-            int test_num = 0;
+            int suite_num = 0;
             int fails = 0;
+
+            Console.Write("Choose library to test: (1. Ponziani, 2. TimHanewich): ");
+
+            string test = Console.ReadLine();
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
+            Console.WriteLine("\nBEGINNING ALL TESTS\n");
 
             foreach (string fen in expected.Keys) {
                 int depth = Math.Min(expected[fen].Keys.Last(), 5);
 
                 Console.ForegroundColor = ConsoleColor.Blue;
 
-                if (++test_num > 1) {
+                if (++suite_num > 1) {
                     Console.WriteLine();
                 }
 
-                Console.WriteLine("Test: {0}", fen);
-                Console.WriteLine("Test Depth: {0}\n", depth);
+                Console.WriteLine("Suite {0}: {1}", suite_num, fen);
+                Console.WriteLine("Max Depth: {0}\n", depth);
 
                 for (int i = 1; i <= depth; i++) {
                     game_ponz = new PonzianiComponents.Chesslib.Game(fen);
-                    int count = GenerateMovesPonziani(i);
+                    game_tim = new TimHanewich.Chess.BoardPosition(fen);
+                    int count;
+
+                    switch (test) {
+                        case "1":
+                            count = GenerateMovesPonziani(i);
+
+                            break;
+
+                        case "2":
+                            count = GenerateMovesTim(i);
+
+                            break;
+
+                        default:
+                            count = 0;
+
+                            break;
+                    }
+
                     bool pass = (count == expected[fen][i]);
 
                     if (!pass) {
@@ -103,8 +130,10 @@ namespace ChessPerft {
 
                     Console.ForegroundColor = (pass) ? ConsoleColor.Green : ConsoleColor.Red;
 
+                    string expectation = (pass) ? "" : " (expected: {3})";
+
                     Console.WriteLine(
-                        "Depth: {0}  Positions: {1}  Pass: {2}", i, count, pass
+                        "Depth: {0}   Positions: {1}   Pass: {2}" + expectation, i, count, pass, expected[fen][i]
                     );
                 }
             }
