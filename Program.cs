@@ -80,7 +80,7 @@ namespace ChessPerft {
             int suite_num = 0;
             int fails = 0;
 
-            Console.Write("Choose library to test: (1. Ponziani, 2. TimHanewich): ");
+            Console.Write("Choose library to test (1. Ponziani, 2. TimHanewich): ");
 
             string test = Console.ReadLine();
 
